@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Task Man</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+  <style>
+    table, th, td {
+  border: 1px solid black;
+}
+th, td {
+  padding: 15px;
+}
+h3{
+
+  margin: 50px auto;
+}
+  </style>
+  </head>
+  <body class="container my-3"><h1 id="task-man">Task-man</h1>
+<p>Task man is a REST api to keep track of your day to day task. Users can login to taskman and perform various operations such as:</p>
+<ol>
+<li>Creating a task with &quot;description&quot; and &quot;completed&quot; information of the task.</li>
+<li>Updating a task.</li>
+<li>Deleting a task.</li>
+<li>Setting up a user profile picture.</li>
+</ol>
+<h2 id="docs">Docs</h2>
+<p><strong>API endpoint:</strong> <code>https://recks-task-man.herokuapp.com/</code></p>
+<p><strong>{url}</strong> : <code>recks-task-man.herokuapp.com</code></p>
+<h3 id="create-user-register-login-user">Create User/ Register, Login user</h3>
+<p>Registers a new user in the database/Logs in a user and returns the user information, along with the web token.</p>
+<table>
+<thead>
+<tr>
+<th><strong>Title</strong></th>
+<th><strong>Create User</strong></th>
+<th><strong>Login User</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>URL</strong></td>
+<td><code>/users</code></td>
+<td><code>/users/login</code></td>
+</tr>
+<tr>
+<td><strong>Method</strong></td>
+<td>POST</td>
+<td>POST</td>
+</tr>
+<tr>
+<td><strong>URL Parameters</strong></td>
+<td>None</td>
+<td>None</td>
+</tr>
+<tr>
+<td><strong>Data Parameters</strong></td>
+<td><strong>Body:</strong> <code>{ &quot;name&quot;: &quot;John Doe&quot;, &quot;email&quot;: &quot;johndoe@gmail.com&quot;, &quot;age&quot;: 21, &quot;password&quot; : &quot;newuser1289&quot; }</code></td>
+<td><strong>Body:</strong> <code>{ &quot;email&quot;: &quot;johndoe@gmail.com&quot;, &quot;password&quot; : &quot;newuser1289&quot; }</code></td>
+</tr>
+<tr>
+<td><strong>Success Response</strong></td>
+<td><strong>Code:</strong> 201 <strong>Content:</strong><code>{ &quot;user&quot;: { &quot;name&quot;: &quot;John Doe&quot;, &quot;email&quot;: &quot;johndoe@gmail.com&quot;, &quot;age&quot;: 21, &quot;_id&quot;: &quot;619fb34831490c08facc98d7&quot;, &quot;createdAt&quot;: &quot;2021-11-25T16:01:12.944Z&quot;, &quot;updatedAt&quot;: &quot;2021-11-25T16:01:13.105Z&quot;, &quot;__v&quot;: 1 }, &quot;token&quot;: &quot;eyJhb...&quot; }</code></td>
+<td><strong>Code:</strong> 200 <strong>Content:</strong> <code>{ &quot;user&quot;: { &quot;name&quot;: &quot;John Doe&quot;, &quot;email&quot;: &quot;johndoe@gmail.com&quot;, &quot;age&quot;: 21, &quot;_id&quot;: &quot;619fb34831490c08facc98d7&quot;, &quot;createdAt&quot;: &quot;2021-11-25T16:01:12.944Z&quot;, &quot;updatedAt&quot;: &quot;2021-11-25T16:01:13.105Z&quot;, &quot;__v&quot;: 1 }, &quot;token&quot;: &quot;eyJhb...&quot; }</code></td>
+</tr>
+<tr>
+<td><strong>Error Response</strong></td>
+<td><strong>Code:</strong> 400</td>
+<td><strong>Code:</strong> 400</td>
+</tr>
+<tr>
+<td><strong>Sample Call</strong></td>
+<td><code>const user = { name: &#39;John Doe&#39;, email: &#39;johndoe@gmail.com&#39;, age: 21, password : &#39;newuser1289&#39; }; axios.post(&#39;https://{url}/users&#39;, user) .then((response) =&gt;{ console.log(response) }) .catch((error) =&gt; { console.error(&#39;There was an error!&#39;, error); });</code></td>
+<td><code>const user = { email: &#39;johndoe@gmail.com&#39;, password: &#39;newuser1289&#39; }; axios.post(&#39;https://{url}/users/login&#39;, user) .then((response) =&gt;{ console.log(response) }) .catch((error) =&gt; { console.error(&#39;There was an error!&#39;, error); });</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="create-task">Create task</h3>
+<p>Creates a new task and store it in the database and returns the task information</p>
+<table>
+<thead>
+<tr>
+<th><strong>Title</strong></th>
+<th><strong>Create task</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>URL</strong></td>
+<td><code>/tasks</code></td>
+</tr>
+<tr>
+<td><strong>Method</strong></td>
+<td>POST</td>
+</tr>
+<tr>
+<td><strong>URL Parameters</strong></td>
+<td>None</td>
+</tr>
+<tr>
+<td><strong>Data Parameters</strong></td>
+<td><strong>Body:</strong> <code>{ description : [string], completed : [boolean], }</code> <strong>Example:</strong> <code>{ &quot;description&quot;: &quot;Cook food&quot;, &quot;completed&quot;: &quot;false&quot;, }</code></td>
+</tr>
+<tr>
+<td><strong>Success Response</strong></td>
+<td><strong>Code:</strong> 201 <strong>Content:</strong> <code>{ &quot;description&quot;: &quot;Cook food&quot;, &quot;completed&quot;: false, &quot;owner&quot;: &quot;619...&quot;, &quot;_id&quot;: &quot;61a...&quot;, &quot;createdAt&quot;: &quot;2021-11-26T03:34:15.909Z&quot;, &quot;updatedAt&quot;: &quot;2021-11-26T03:34:15.909Z&quot;, &quot;__v&quot;: 0 }</code></td>
+</tr>
+<tr>
+<td><strong>Error Response</strong></td>
+<td><strong>Code:</strong> 400</td>
+</tr>
+<tr>
+<td><strong>Sample Call</strong></td>
+<td><code>const task = { description: &#39;Cook food&#39;, completed: false, }; axios.post(&#39;https://{url}/tasks&#39;, task) .then((response) =&gt;{ console.log(response) }) .catch((error) =&gt; { console.error(&#39;There was an error!&#39;, error); });</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="logout">Logout</h3>
+<p>Logout user(s)</p>
+<table>
+<thead>
+<tr>
+<th><strong>Title</strong></th>
+<th><strong>Logout user from one device</strong></th>
+<th><strong>Logout user from all devices</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>URL</strong></td>
+<td><code>/users/logout</code></td>
+<td><code>/users/logoutAll</code></td>
+</tr>
+<tr>
+<td><strong>Method</strong></td>
+<td>POST</td>
+<td>POST</td>
+</tr>
+<tr>
+<td><strong>URL Parameters</strong></td>
+<td>None</td>
+<td>None</td>
+</tr>
+<tr>
+<td><strong>Data Parameters</strong></td>
+<td>None</td>
+<td>None</td>
+</tr>
+<tr>
+<td><strong>Success Response</strong></td>
+<td><strong>Code:</strong> 200</td>
+<td><strong>Code:</strong> 200</td>
+</tr>
+<tr>
+<td><strong>Error Response</strong></td>
+<td><strong>Code:</strong> 401 UNAUTHORIZED <strong>Content:</strong> <code>{ error: &quot;Please authenticate.&quot; }</code></td>
+<td><strong>Code:</strong> 401 UNAUTHORIZED <strong>Content:</strong> <code>{ error: &quot;Please authenticate.&quot; }</code></td>
+</tr>
+<tr>
+<td><strong>Sample Call</strong></td>
+<td><code>axios.post(&#39;https://{url}/users/logout&#39;) .then((response) =&gt;{ console.log(response) }) .catch((error) =&gt; { console.error(&#39;There was an error!&#39;, error); });</code></td>
+<td><code>axios.post(&#39;https://{url}/users/logoutAll&#39;) .then((response) =&gt;{ console.log(response) }) .catch((error) =&gt; { console.error(&#39;There was an error!&#39;, error); });</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="read-user-profile">Read User profile</h3>
+<table>
+<thead>
+<tr>
+<th><strong>Title</strong></th>
+<th><strong>Read user profile</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>URL</strong></td>
+<td><code>/users/me</code></td>
+</tr>
+<tr>
+<td><strong>Method</strong></td>
+<td>GET</td>
+</tr>
+<tr>
+<td><strong>URL Parameters</strong></td>
+<td>None</td>
+</tr>
+<tr>
+<td><strong>Data Parameters</strong></td>
+<td>None</td>
+</tr>
+<tr>
+<td><strong>Success Response</strong></td>
+<td><strong>Code:</strong> 200 <strong>Content:*</strong> <code>{ &quot;_id&quot;: &quot;619f...&quot;, &quot;name&quot;: &quot;John Doe&quot;, &quot;email&quot;: &quot;johndoe@gmail.com&quot;, &quot;age&quot;: 21, &quot;createdAt&quot;: &quot;2021-11-25T16:01:12.944Z&quot;, &quot;updatedAt&quot;: &quot;2021-11-26T14:03:32.990Z&quot;, &quot;__v&quot;: 8 }</code></td>
+</tr>
+<tr>
+<td><strong>Error Response</strong></td>
+<td><strong>Code:</strong> 401 UNAUTHORIZED <strong>Content:</strong> <code>{ error: &quot;Please authenticate.&quot; }</code></td>
+</tr>
+<tr>
+<td><strong>Sample Call</strong></td>
+<td><code>axios.get(&#39;https://{url}/users/me&#39;) .then((response) =&gt;{ console.log(response) }) .catch((error) =&gt; { console.error(&#39;There was an error!&#39;, error); });</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="read-tasks">Read tasks</h3>
+<p>Returns array/single task(s)</p>
+<table>
+<thead>
+<tr>
+<th><strong>Title</strong></th>
+<th><strong>Read all tasks</strong></th>
+<th><strong>Read a tasks by its id</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>URL</strong></td>
+<td><code>/tasks</code></td>
+<td><code>/tasks/:id</code> example: <code>/tasks/61a05618849d63b275c7d036</code></td>
+</tr>
+<tr>
+<td><strong>Method</strong></td>
+<td>GET</td>
+<td>GET</td>
+</tr>
+<tr>
+<td><strong>URL Parameters</strong></td>
+<td><strong>Optional</strong> <br><code>completed=[boolean]</code> <br>example: completed=true <br>(it will only return the completed tasks) <br><br><code>limit=[integer]</code> <br>example: limit=5 <br>(it will only return 5 tasks) <br><br><code>skip=[integer]</code> <br>example: skip=5 <br>(it will skip the first 5 tasks and fetch the next 5) <br><br><code>sort=[string]</code> <br>example: sort=createdAt:asc (or desc) <br>(it will sort the tasks depending on the time, when it was created)</td>
+<td>None</td>
+</tr>
+<tr>
+<td><strong>Data Parameters</strong></td>
+<td>None</td>
+<td>None</td>
+</tr>
+<tr>
+<td><strong>Success Response</strong></td>
+<td><strong>Code:</strong> 200 <strong>Content:*</strong> <code>[ { &quot;_id&quot;: &quot;61a...&quot;, &quot;description&quot;: &quot;Cook food&quot;, &quot;completed&quot;: false, &quot;owner&quot;: &quot;619...&quot;, &quot;createdAt&quot;: &quot;2021-11-26T03:35:52.880Z&quot;, &quot;updatedAt&quot;: &quot;2021-11-26T03:35:52.880Z&quot;, &quot;__v&quot;: 0 }, { &quot;_id&quot;: &quot;61a...&quot;, &quot;description&quot;: &quot;Make notes&quot;, &quot;completed&quot;: true, &quot;owner&quot;: &quot;619...&quot;, &quot;createdAt&quot;: &quot;2021-11-27T02:23:47.155Z&quot;, &quot;updatedAt&quot;: &quot;2021-11-27T02:23:47.155Z&quot;, &quot;__v&quot;: 0 } ]</code></td>
+<td><strong>Code:</strong> 200 <strong>Content:</strong> <code>{ &quot;_id&quot;: &quot;61a05618849d63b275c7d036&quot;, &quot;description&quot;: &quot;Cook food&quot;, &quot;completed&quot;: false, &quot;owner&quot;: &quot;619f...&quot;, &quot;createdAt&quot;: &quot;2021-11-26T03:35:52.880Z&quot;, &quot;updatedAt&quot;: &quot;2021-11-26T03:35:52.880Z&quot;, &quot;__v&quot;: 0 }</code></td>
+</tr>
+<tr>
+<td><strong>Error Response</strong></td>
+<td><strong>Code:</strong> 401 UNAUTHORIZED <strong>Content:</strong> <code>{ error: &quot;Please authenticate.&quot; }</code></td>
+<td><strong>Code:</strong> 401 UNAUTHORIZED <strong>Content:</strong> <code>{ error: &quot;Please authenticate.&quot; }</code> OR <strong>Code:</strong> 404 NOT FOUND OR <strong>Code:</strong> 500 INTERNAL SERVER ERROR</td>
+</tr>
+<tr>
+<td><strong>Sample Call</strong></td>
+<td><code>axios.get(&#39;https://{url}/tasks?completed=true&#39;) .then((response) =&gt;{ console.log(response) }) .catch((error) =&gt; { console.error(&#39;There was an error!&#39;, error); });</code></td>
+<td><code>axios.get(&#39;https://{url}/tasks/61a05618849d63b275c7d036&#39;) .then((response) =&gt;{ console.log(response) }) .catch((error) =&gt; { console.error(&#39;There was an error!&#39;, error); });</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="update-requests">Update requests</h3>
+<table>
+<thead>
+<tr>
+<th><strong>Title</strong></th>
+<th><strong>Update user profile</strong></th>
+<th><strong>Update a tasks by its id</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>URL</strong></td>
+<td><code>/users/me</code></td>
+<td><code>/tasks/:id</code> <br><br> example:<br> <code>/tasks/61a196b39421d590f8713f74</code></td>
+</tr>
+<tr>
+<td><strong>Method</strong></td>
+<td>PATCH</td>
+<td>PATCH</td>
+</tr>
+<tr>
+<td><strong>URL Parameters</strong></td>
+<td>None</td>
+<td>None</td>
+</tr>
+<tr>
+<td><strong>Data Parameters</strong></td>
+<td><strong>Body:</strong> <br> <code>{ name : [string], email : [string], password : [alphanumeric], age:[positive integer] }</code><br> <em>Fields are optional</em><br> <strong>Example:</strong><br> <code>{ &quot;name&quot;: &quot;Johnny Doe&quot;, &quot;age&quot;: 50, }</code></td>
+<td><strong>Body:</strong> <br> <code>{ description : [string], completed : [boolean], }</code> <br> <em>Fields are optional</em><br> <strong>Example:</strong> <br> <code>{ &quot;description&quot;: &quot;Go shopping&quot;, &quot;completed&quot;: &quot;false&quot;, }</code></td>
+</tr>
+<tr>
+<td><strong>Success Response</strong></td>
+<td><strong>Code:</strong> 200<br> <strong>Content:*</strong><br> <code>{ &quot;_id&quot;: &quot;619f...&quot;, &quot;name&quot;: &quot;Johnny Doe&quot;, &quot;email&quot;: &quot;johndoe@gmail.com&quot;, &quot;age&quot;: 50, &quot;createdAt&quot;: &quot;2021-11-25T16:01:12.944Z&quot;, &quot;updatedAt&quot;: &quot;2021-11-27T03:09:37.513Z&quot;, &quot;__v&quot;: 11 }</code></td>
+<td><strong>Code:</strong> 200<br> <strong>Content:</strong><br> <code>{ &quot;_id&quot;: &quot;61a196b39421d590f8713f74&quot;, &quot;description&quot;: &quot;Go shopping&quot;, &quot;completed&quot;: false, &quot;owner&quot;: &quot;619f...&quot;, &quot;createdAt&quot;: &quot;2021-11-27T02:23:47.155Z&quot;, &quot;updatedAt&quot;: &quot;2021-11-27T03:15:02.366Z&quot;, &quot;__v&quot;: 0 }</code></td>
+</tr>
+<tr>
+<td><strong>Error Response</strong></td>
+<td><strong>Code:</strong> 401 UNAUTHORIZED<br> <strong>Content:</strong> <br> <code>{ error: &quot;Please authenticate.&quot; }</code></td>
+<td><strong>Code:</strong> 401 UNAUTHORIZED<br> <strong>Content:</strong><br> <code>{ error: &quot;Please authenticate.&quot; }</code></td>
+</tr>
+<tr>
+<td><strong>Sample Call</strong></td>
+<td><code>const user = { name: &#39;Johnny Doe&#39;, age: 50, }; axios.patch(&#39;https://{url}/users/me&#39;, user) .then((response) =&gt;{ console.log(response) }) .catch((error) =&gt; { console.error(&#39;There was an error!&#39;, error); });</code></td>
+<td><code>const task = { description: &#39;Go shopping&#39;, completed: false, }; axios.patch(&#39;https://{url}//tasks/61a196b39421d590f8713f74&#39;, task) .then((response) =&gt;{ console.log(response) }) .catch((error) =&gt; { console.error(&#39;There was an error!&#39;, error); });</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="delete-user-task">Delete User/task</h3>
+<table>
+<thead>
+<tr>
+<th><strong>Title</strong></th>
+<th><strong>Delete user profile</strong></th>
+<th><strong>Delete a tasks by its id</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>URL</strong></td>
+<td><code>/users/me</code></td>
+<td><code>/tasks/:id</code> <br><br> example:<br> <code>/tasks/61a1a76a202dda493d83ca4c</code></td>
+</tr>
+<tr>
+<td><strong>Method</strong></td>
+<td>DELETE</td>
+<td>DELETE</td>
+</tr>
+<tr>
+<td><strong>URL Parameters</strong></td>
+<td>None</td>
+<td>None</td>
+</tr>
+<tr>
+<td><strong>Data Parameters</strong></td>
+<td>None</td>
+<td>None</td>
+</tr>
+<tr>
+<td><strong>Success Response</strong></td>
+<td><strong>Code:</strong> 200<br> <strong>Content:</strong><br> <code>{ &quot;_id&quot;: &quot;619f...&quot;, &quot;name&quot;: &quot;Johnny Doe&quot;, &quot;email&quot;: &quot;johndoe@gmail.com&quot;, &quot;age&quot;: 50, &quot;createdAt&quot;: &quot;2021-11-25T16:01:12.944Z&quot;, &quot;updatedAt&quot;: &quot;2021-11-27T03:30:13.651Z&quot;, &quot;__v&quot;: 12 }</code></td>
+<td><strong>Code:</strong> 200<br> <strong>Content:</strong><br> <code>{ &quot;_id&quot;: &quot;61a196b39421d590f8713f74&quot;, &quot;description&quot;: &quot;Go shopping&quot;, &quot;completed&quot;: false, &quot;owner&quot;: &quot;619f...&quot;, &quot;createdAt&quot;: &quot;2021-11-27T02:23:47.155Z&quot;, &quot;updatedAt&quot;: &quot;2021-11-27T03:15:02.366Z&quot;, &quot;__v&quot;: 0 }</code></td>
+</tr>
+<tr>
+<td><strong>Error Response</strong></td>
+<td><strong>Code:</strong> 401 UNAUTHORIZED<br> <strong>Content:</strong> <br> <code>{ error: &quot;Please authenticate.&quot; }</code></td>
+<td><strong>Code:</strong> 401 UNAUTHORIZED<br> <strong>Content:</strong><br> <code>{ error: &quot;Please authenticate.&quot; }</code></td>
+</tr>
+<tr>
+<td><strong>Sample Call</strong></td>
+<td>axios.delete(&#39;<a href="https://{url}/users/me">https://{url}/users/me</a>&#39;) .then((response) =&gt;{ console.log(response) }) .catch((error) =&gt; { console.error(&#39;There was an error!&#39;, error); }); ```</td>
+<td><code>axios.delete(&#39;https://{url}//tasks/61a1a76a202dda493d83ca4c&#39;) .then((response) =&gt;{ console.log(response) }) .catch((error) =&gt; { console.error(&#39;There was an error!&#39;, error); });</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="user-profile-picture-avatar-">User profile picture (avatar)</h3>
+<table>
+<thead>
+<tr>
+<th><strong>Title</strong></th>
+<th><strong>Set/update user profile image</strong></th>
+<th><strong>Delete user profile image</strong></th>
+<th><strong>Get profile image</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>URL</strong></td>
+<td><code>users/me/avatar</code></td>
+<td><code>users/me/avatar</code></td>
+<td><code>users/:id/avatar</code><br> example:<br> <code>users/61a1a762202dda493d83ca46/avatar</code></td>
+</tr>
+<tr>
+<td><strong>Method</strong></td>
+<td>POST</td>
+<td>DELETE</td>
+<td>GET</td>
+</tr>
+<tr>
+<td><strong>URL Parameters</strong></td>
+<td>None</td>
+<td>None</td>
+<td>None</td>
+</tr>
+<tr>
+<td><strong>Data Parameters</strong></td>
+<td><strong>Body</strong>:Image File<br><br> 1. File should be of .jpg, .jpeg or .png format.<br> 2. File size should be of &lt;=1MB.<br><br> <strong>Headers</strong><br> <code>{ &#39;Content-Type&#39;: &#39;multipart/form-data&#39; }</code></td>
+<td>None</td>
+<td>None</td>
+</tr>
+<tr>
+<td><strong>Success Response</strong></td>
+<td><strong>Code:</strong> 200</td>
+<td><strong>Code:</strong> 200</td>
+<td><strong>Code:</strong> 200<br> <strong>Body</strong><br> <em>Image file</em></td>
+</tr>
+<tr>
+<td><strong>Error Response</strong></td>
+<td><strong>Code:</strong> 401 UNAUTHORIZED<br> <strong>Content:</strong> <br> <code>{ error: &quot;Please authenticate.&quot; }</code></td>
+<td><strong>Code:</strong> 401 UNAUTHORIZED<br> <strong>Content:</strong><br> <code>{ error: &quot;Please authenticate.&quot; }</code></td>
+<td><strong>Code:</strong> 404 NOT FOUND<br></td>
+</tr>
+<tr>
+<td><strong>Sample Call</strong></td>
+<td><code>var formData = new FormData(); var imagefile = document.querySelector(&#39;#file&#39;); formData.append(&quot;image&quot;, imagefile.files[0]); axios.post(&#39;users/me/avatar&#39;, formData, { headers: { &#39;Content-Type&#39;: &#39;multipart/form-data&#39; } })</code></td>
+<td><code>axios.delete(&#39;https://{url}/users/me/avatar&#39;) .then((response) =&gt;{ console.log(response) }) .catch((error) =&gt; { console.error(&#39;There was an error!&#39;, error); });</code></td>
+</tr>
+</tbody>
+</table>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+</body>
+</html>

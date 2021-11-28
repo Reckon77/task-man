@@ -1,16 +1,19 @@
 //Importing express
 const express = require("express")
-
+const path=require('path');
 require("./db/mongoose") //mongoose connection
 
 //Importing user and task routes
 const userRouter=require("./routers/user")
 const taskRouter=require("./routers/task")
+const homeRouter=require("./routers/home")
 //creating the instance of express app and defining port
 const app = express()
 const port=process.env.PORT
 
-
+const viewsPath=path.join(__dirname,'../templates/views')
+app.set('view engine','hbs')
+app.set('views',viewsPath)
 // const multer=require('multer')
 // const upload = multer({ dest: 'images/' })
 
@@ -33,6 +36,7 @@ const port=process.env.PORT
 //parses incoming requests with JSON payloads
 app.use(express.json())
 //use the routes
+app.use(homeRouter)
 app.use(userRouter)
 app.use(taskRouter)
 
